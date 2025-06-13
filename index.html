@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Landing Page</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+<script type="importmap">
+{
+  "imports": {
+    "react": "https://esm.sh/react@^19.1.0",
+    "react-dom/": "https://esm.sh/react-dom@^19.1.0/",
+    "react/": "https://esm.sh/react@^19.1.0/"
+  }
+}
+</script>
+</head>
+<body>
+    <nav id="navbar">
+        <div class="container nav-container">
+            <a href="#home" class="logo">
+                <svg width="36" height="36" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M2 17L12 22L22 17" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M2.00006 12L12.0001 17L22.0001 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                <span class="brand-name">BrandName</span>
+            </a>
+            <button id="mobile-menu-toggle" aria-label="Open navigation menu" aria-expanded="false" aria-controls="nav-links-desktop mobile-menu-items">
+                &#9776; <!-- Hamburger Icon -->
+            </button>
+            <ul id="nav-links-desktop" class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#services">Services</a></li>
+                <li><a href="#portfolio">Portfolio</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div id="mobile-menu" class="mobile-nav-links" role="navigation" aria-hidden="true">
+        <a href="#home" class="mobile-nav-item">Home</a>
+        <a href="#about" class="mobile-nav-item">About</a>
+        <a href="#services" class="mobile-nav-item">Services</a>
+        <a href="#portfolio" class="mobile-nav-item">Portfolio</a>
+        <a href="#contact" class="mobile-nav-item">Contact</a>
+    </div>
+
+    <main>
+        <section id="home" class="hero-section">
+            <div class="hero-overlay"></div>
+            <div class="container hero-content">
+                <h1>Welcome to Our Interactive World</h1>
+                <p>Discover seamless design and flawless functionality, crafted just for you.</p>
+                <a href="#about" class="btn btn-primary">Learn More</a>
+            </div>
+        </section>
+
+        <section id="about" class="content-section bg-white text-dark">
+            <div class="container">
+                <h2>About Us</h2>
+                <p class="text-lg">
+                    We are a passionate team dedicated to creating stunning and functional web experiences. Our expertise in modern web technologies allows us to build innovative solutions tailored to your needs.
+                </p>
+                <p class="text-lg">
+                    Founded in 2023, our mission has always been to push the boundaries of web design and development, delivering projects that not only look great but also perform exceptionally.
+                </p>
+            </div>
+        </section>
+
+        <section id="services" class="content-section bg-light-gray text-dark">
+            <div class="container">
+                <h2>Our Services</h2>
+                <ul class="styled-list">
+                    <li>Custom Web Application Development</li>
+                    <li>Responsive UI/UX Design</li>
+                    <li>Frontend Engineering</li>
+                    <li>CSS Styling & Theming</li>
+                    <li>API Integration and Development</li>
+                </ul>
+            </div>
+        </section>
+
+        <section id="portfolio" class="content-section bg-primary text-light">
+            <div class="container">
+                <h2>Portfolio Highlights</h2>
+                <div class="portfolio-grid">
+                    <div class="portfolio-item">
+                        <img src="https://picsum.photos/seed/1Dev/400/300" alt="Portfolio item 1" class="portfolio-image"/>
+                        <h3>Project Example 1</h3>
+                        <p>A brief description of this amazing project, showcasing our skills and creativity.</p>
+                    </div>
+                    <div class="portfolio-item">
+                        <img src="https://picsum.photos/seed/2Dev/400/300" alt="Portfolio item 2" class="portfolio-image"/>
+                        <h3>Project Example 2</h3>
+                        <p>Another example demonstrating our capabilities in web development and design.</p>
+                    </div>
+                    <div class="portfolio-item">
+                        <img src="https://picsum.photos/seed/3Dev/400/300" alt="Portfolio item 3" class="portfolio-image"/>
+                        <h3>Project Example 3</h3>
+                        <p>This project highlights innovative features and a user-centric approach.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="contact" class="content-section bg-dark text-light">
+            <div class="container">
+                <h2>Get In Touch</h2>
+                <p class="text-lg">
+                    We'd love to hear about your next project. Reach out to us for a consultation or just to say hello!
+                </p>
+                <form class="contact-form">
+                    <div>
+                        <label for="name">Name</label>
+                        <input type="text" id="name" name="name" required />
+                    </div>
+                    <div>
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email" required />
+                    </div>
+                    <div>
+                        <label for="message">Message</label>
+                        <textarea id="message" name="message" rows="4" required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Send Message</button>
+                </form>
+            </div>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">
+            <p>&copy; <span id="current-year"></span> Interactive Landing Page. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

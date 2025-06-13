@@ -1,0 +1,452 @@
+/* --- Global Styles & Variables --- */
+:root {
+    --primary-color: #3498db;
+    --secondary-color: #2ecc71;
+    --accent-color: #e74c3c;
+    --light-bg-color: #f8f9fa;
+    --dark-bg-color: #343a40;
+    --light-text-color: #f8f9fa;
+    --dark-text-color: #212529;
+    --light-gray-color: #f0f2f5; /* For alternating sections */
+    --footer-bg-color: #2c3e50;
+    --footer-text-color: #bdc3c7;
+
+    --navbar-height: 80px; /* Updated from h-20 tailwind (5rem = 80px) */
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    scroll-behavior: smooth;
+    font-size: 16px; /* Base font size */
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    line-height: 1.6;
+    background-color: var(--light-bg-color);
+    color: var(--dark-text-color);
+    overflow-x: hidden; /* Prevent horizontal scroll */
+}
+
+.container {
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 1rem;
+    padding-right: 1rem;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+
+a {
+    text-decoration: none;
+    color: var(--primary-color);
+}
+
+ul {
+    list-style: none;
+}
+
+h1, h2, h3 {
+    line-height: 1.3;
+}
+
+
+/* --- Navbar --- */
+#navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    height: var(--navbar-height);
+    background-color: transparent;
+    color: var(--light-text-color);
+    transition: background-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out, color 0.3s ease-in-out;
+    display: flex;
+    align-items: center;
+}
+
+#navbar .nav-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+#navbar.scrolled {
+    background-color: #ffffff;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    color: var(--dark-text-color);
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem; /* Tailwind gap-2 */
+    font-weight: bold;
+    font-size: 1.25rem; /* Tailwind text-xl */
+    color: inherit; /* Takes color from #navbar or #navbar.scrolled */
+}
+
+.logo svg {
+    width: 36px; /* h-8 w-8 in tailwind, but original svg width/height is 36 */
+    height: 36px;
+    /* currentColor will be white initially, primary when scrolled if set via JS or CSS on parent */
+}
+/* Specific color handling for logo elements */
+#navbar .logo svg {
+    color: var(--light-text-color); /* Default for top */
+}
+#navbar .logo .brand-name {
+    color: var(--light-text-color);
+}
+#navbar.scrolled .logo svg {
+    color: var(--primary-color); /* Primary color when scrolled */
+}
+#navbar.scrolled .logo .brand-name {
+    color: var(--dark-text-color); /* Dark text when scrolled */
+}
+
+
+.nav-links {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem; /* Tailwind space-x-1 */
+}
+
+.nav-links a {
+    padding: 0.5rem 0.75rem; /* Tailwind px-3 py-2 */
+    border-radius: 0.375rem; /* Tailwind rounded-md */
+    font-size: 0.875rem; /* Tailwind text-sm */
+    font-weight: 500; /* Tailwind font-medium */
+    color: inherit; /* Takes color from #navbar or #navbar.scrolled */
+    transition: color 0.2s ease-in-out, background-color 0.2s ease-in-out;
+}
+
+/* Top (not scrolled) link hover */
+#navbar:not(.scrolled) .nav-links a:hover {
+    color: var(--primary-color);
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Scrolled link hover */
+#navbar.scrolled .nav-links a:hover {
+    color: var(--primary-color);
+    /* background-color: rgba(0,0,0,0.05); slightly different feel from original */
+}
+
+
+/* --- Mobile Menu --- */
+#mobile-menu-toggle {
+    display: none; /* Hidden by default, shown in media query */
+    background: none;
+    border: none;
+    color: inherit; /* Inherits from #navbar */
+    font-size: 1.8rem;
+    cursor: pointer;
+    padding: 0.5rem;
+    border-radius: 0.375rem;
+}
+#navbar:not(.scrolled) #mobile-menu-toggle:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+#navbar.scrolled #mobile-menu-toggle:hover {
+    background-color: rgba(0,0,0,0.05);
+}
+
+
+.mobile-nav-links {
+    position: fixed;
+    top: var(--navbar-height); /* Position below navbar */
+    left: 0;
+    right: 0;
+    background-color: var(--dark-bg-color); /* Default dark background for mobile menu */
+    padding: 1rem 0;
+    display: none; /* Hidden by default */
+    flex-direction: column;
+    align-items: center;
+    z-index: 999;
+    max-height: calc(100vh - var(--navbar-height));
+    overflow-y: auto;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.mobile-nav-links.open {
+    display: flex;
+}
+/* Adjust background if navbar is scrolled (white) */
+#navbar.scrolled + .mobile-nav-links {
+    background-color: white;
+}
+
+
+.mobile-nav-item {
+    display: block;
+    padding: 0.75rem 1.5rem;
+    width: 100%;
+    text-align: center;
+    font-size: 1rem; /* Tailwind text-base */
+    font-weight: 500; /* Tailwind font-medium */
+    color: var(--light-text-color); /* Default light text */
+    transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+}
+.mobile-nav-item:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: var(--primary-color);
+}
+/* Style for mobile nav items when main navbar is scrolled */
+#navbar.scrolled + .mobile-nav-links .mobile-nav-item {
+    color: var(--dark-text-color);
+}
+#navbar.scrolled + .mobile-nav-links .mobile-nav-item:hover {
+    background-color: rgba(0,0,0,0.05);
+    color: var(--primary-color);
+}
+
+
+/* --- Hero Section --- */
+.hero-section {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: var(--light-text-color);
+    background: url('https://picsum.photos/seed/hero/1920/1080') no-repeat center center/cover;
+    position: relative;
+    padding: 2rem 0; /* Add padding for content on smaller screens */
+}
+
+.hero-overlay {
+    position: absolute;
+    inset: 0; /* top, right, bottom, left = 0 */
+    background-color: rgba(0, 0, 0, 0.5); /* Opacity 50% */
+}
+
+.hero-content {
+    position: relative;
+    z-index: 1;
+    max-width: 800px; /* Tailwind max-w-3xl is 48rem = 768px, using 800 for slightly more */
+}
+
+.hero-content h1 {
+    font-size: 3rem; /* Tailwind text-5xl */
+    font-weight: 700; /* Tailwind font-bold */
+    margin-bottom: 1.5rem; /* Tailwind mb-6 */
+    line-height: 1.2; /* Tailwind leading-tight */
+}
+
+.hero-content p {
+    font-size: 1.25rem; /* Tailwind text-xl */
+    color: #e2e8f0; /* Tailwind text-gray-200 */
+    margin-bottom: 2rem; /* Tailwind mb-8 */
+}
+
+.btn {
+    display: inline-block;
+    font-weight: 600; /* Tailwind font-semibold */
+    padding: 0.75rem 2rem; /* Tailwind py-3 px-8 */
+    border-radius: 0.5rem; /* Tailwind rounded-lg */
+    font-size: 1.125rem; /* Tailwind text-lg */
+    transition: background-color 0.3s ease-in-out, opacity 0.3s ease-in-out;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1); /* Tailwind shadow-lg */
+    border: none;
+    cursor: pointer;
+}
+
+.btn-primary {
+    background-color: var(--primary-color);
+    color: var(--light-text-color);
+}
+
+.btn-primary:hover {
+    opacity: 0.8;
+}
+
+/* --- Content Sections --- */
+.content-section {
+    padding: 4rem 0; /* Tailwind py-16 */
+}
+
+.content-section .container {
+    max-width: 900px; /* Tailwind max-w-4xl */
+}
+
+.content-section h2 {
+    font-size: 2.25rem; /* Tailwind text-3xl */
+    font-weight: 700; /* Tailwind font-bold */
+    text-align: center;
+    margin-bottom: 3rem; /* Tailwind mb-12 */
+}
+
+.content-section p.text-lg {
+    font-size: 1.125rem; /* Tailwind text-lg */
+    line-height: 1.7; /* Tailwind leading-relaxed */
+    margin-bottom: 1rem; /* Tailwind mb-4 */
+}
+
+.content-section .styled-list {
+    list-style: disc;
+    padding-left: 1.5rem; /* Tailwind list-inside roughly */
+    font-size: 1.125rem;
+}
+.content-section .styled-list li {
+    margin-bottom: 0.5rem; /* Tailwind space-y-2 */
+}
+
+
+/* Section-specific backgrounds and text colors */
+.bg-white { background-color: #ffffff; }
+.bg-light-gray { background-color: var(--light-gray-color); } /* Added for services section */
+.bg-primary { background-color: var(--primary-color); }
+.bg-dark { background-color: var(--dark-bg-color); }
+
+.text-dark { color: var(--dark-text-color); }
+.text-light { color: var(--light-text-color); }
+
+
+/* --- Portfolio Section --- */
+.portfolio-grid {
+    display: grid;
+    gap: 2rem; /* Tailwind gap-8 */
+}
+
+.portfolio-item {
+    background-color: rgba(255, 255, 255, 0.2); /* Tailwind bg-white/20 */
+    padding: 1.5rem; /* Tailwind p-6 */
+    border-radius: 0.5rem; /* Tailwind rounded-lg */
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1); /* Tailwind shadow-lg */
+    /* backdrop-filter: blur(10px); /* Tailwind backdrop-blur-md - can impact performance */
+}
+
+.portfolio-image {
+    width: 100%;
+    height: 200px; /* Tailwind h-48 */
+    object-fit: cover;
+    border-radius: 0.375rem; /* Tailwind rounded-md */
+    margin-bottom: 1rem; /* Tailwind mb-4 */
+}
+
+.portfolio-item h3 {
+    font-size: 1.25rem; /* Tailwind text-xl */
+    font-weight: 600; /* Tailwind font-semibold */
+    margin-bottom: 0.5rem; /* Tailwind mb-2 */
+}
+.portfolio-item p {
+    font-size: 0.875rem; /* Tailwind text-sm */
+}
+
+
+/* --- Contact Form --- */
+.contact-form div {
+    margin-bottom: 1rem; /* Tailwind space-y-4 on parent */
+}
+.contact-form label {
+    display: block;
+    font-size: 0.875rem; /* Tailwind text-sm */
+    font-weight: 500; /* Tailwind font-medium */
+    margin-bottom: 0.25rem; /* Tailwind mb-1 */
+}
+.contact-form input[type="text"],
+.contact-form input[type="email"],
+.contact-form textarea {
+    width: 100%;
+    padding: 0.75rem; /* Tailwind p-2 (0.5rem) was a bit small */
+    border-radius: 0.25rem; /* Tailwind rounded */
+    border: 1px solid #4a5568; /* Tailwind border-slate-600 */
+    background-color: #2d3748; /* Tailwind bg-slate-700 */
+    color: var(--light-text-color);
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+.contact-form input[type="text"]:focus,
+.contact-form input[type="email"]:focus,
+.contact-form textarea:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.3); /* Mimic focus:ring-primary */
+}
+.contact-form .btn {
+    margin-top: 1rem; /* Add some space before button */
+}
+
+
+/* --- Footer --- */
+.site-footer {
+    background-color: var(--footer-bg-color); /* Tailwind bg-slate-800 */
+    color: var(--footer-text-color); /* Tailwind text-slate-300 */
+    text-align: center;
+    padding: 1.5rem 0; /* Tailwind p-6, adjusted for vertical only */
+}
+
+
+/* --- Responsive Design --- */
+@media (min-width: 769px) { /* md breakpoint in Tailwind is 768px */
+    /* Portfolio grid for medium screens and up */
+    .portfolio-grid {
+        grid-template-columns: repeat(2, 1fr); /* Tailwind md:grid-cols-2 */
+    }
+}
+
+@media (min-width: 1025px) { /* lg breakpoint in Tailwind is 1024px */
+    .hero-content h1 {
+        font-size: 4.5rem; /* Tailwind md:text-7xl */
+    }
+    .hero-content p {
+        font-size: 1.5rem; /* Tailwind md:text-2xl */
+    }
+    .content-section h2 {
+        font-size: 2.5rem; /* Tailwind md:text-4xl */
+    }
+    /* Portfolio grid for large screens and up */
+    .portfolio-grid {
+        grid-template-columns: repeat(3, 1fr); /* Tailwind lg:grid-cols-3 */
+    }
+}
+
+
+@media (max-width: 768px) { /* md breakpoint */
+    #navbar .nav-links {
+        display: none; /* Hide desktop nav links */
+    }
+    #mobile-menu-toggle {
+        display: block; /* Show hamburger icon */
+    }
+
+    .hero-content h1 {
+        font-size: 2.5rem; /* Adjust hero title for smaller screens */
+    }
+    .hero-content p {
+        font-size: 1.125rem; /* Adjust hero paragraph */
+    }
+    .btn {
+        padding: 0.6rem 1.5rem;
+        font-size: 1rem;
+    }
+
+    .content-section {
+        padding: 3rem 0;
+    }
+    .content-section h2 {
+        font-size: 1.75rem;
+        margin-bottom: 2rem;
+    }
+     .content-section p.text-lg, .content-section .styled-list {
+        font-size: 1rem;
+    }
+
+    .portfolio-grid {
+        grid-template-columns: 1fr; /* Stack portfolio items */
+    }
+}
